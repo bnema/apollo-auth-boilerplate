@@ -9,26 +9,29 @@ const LOGIN_MUTATION = gql`
     }
   }
 `;
-
 const SIGNUP_MUTATION = gql`
   mutation signup($name: String!, $email: String!, $password: String!) {
     signup(name: $name, email: $email, password: $password) {
       token
+      user {
+        id
+        name
+        email
+      }
     }
   }
 `;
-
-
 
 function LoginSignupPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('');
   const [login] = useMutation(LOGIN_MUTATION);
   const [signup] = useMutation(SIGNUP_MUTATION);
+  
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -39,8 +42,8 @@ function LoginSignupPage() {
       // Si l'utilisateur a bien été connecté, on affiche un message de succès et on stocke le token en local storage
       alert("Vous êtes connecté");
       localStorage.setItem('token', data.login.token);
-      // On y stocke aussi le nom de l'utilisateur connecté
-      localStorage.setItem('name', data.login.name);
+      localStorage.setItem("username", data.login.user.name);
+
     } catch (err) {
       // Si l'adresse email n'existe pas, on affiche un message d'erreur
       if (err.message.includes("email")) { 
@@ -77,16 +80,17 @@ function LoginSignupPage() {
       }
     }
   };
-
 const token = localStorage.getItem('token');
-const user = localStorage.getItem('name');
-// On récupère le nom de l'utilisateur connecté 
+const username = localStorage.getItem("username");
 
-// Si un token est présent dans le local storage, on affiche "vous êtes connecté en tant que ..." et un bouton de déconnexion
-  return (
+return (
     <div className="flex">
       <div className="w-1/2 p-4"> {token && (
-        <div> Vous êtes connecté en tant que {user} <button onClick={() => localStorage.removeItem('token')}>Déconnexion</button> </div>
+        // Si l'utilisateur est connecté, on affiche son nom et un bouton de déconnexion (qui supprime le token du local storage et recharge la page)
+        <div>
+          <div className="Yo">Bonjour {username}</div>
+          <button onClick={() => { localStorage.removeItem('token'); window.location.reload(); }}>Déconnexion</button>
+        </div>
       )} </div>
     <div className="w-1/2 p-4">
       <h2>Login</h2>

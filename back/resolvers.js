@@ -24,13 +24,6 @@ const resolvers = {
         },
       });
     },
-    // On veut également pouvoir récupérer les informations de l'utilisateur connecté à partir du contexte.
-    me: async (parent, args, context, info) => {
-      // On récupère l'utilisateur à partir du contexte
-      const user = context.user;
-      // On retourne l'utilisateur
-      return user;
-    }
 },
     Mutation: {
     // login va vérifier que l'utilisateur existe bien et que le mot de passe est correct puis va retourner un token.
@@ -54,10 +47,10 @@ const resolvers = {
         const token = sign({ userId: user.id }, APP_SECRET);
         // Console.log l'utilisateur et le token
         console.log(`User: ${user.name} - Token: ${token} est connecté`);
-        // Retour du token et de l'utilisateur
+        // Retour du token de l'utilisateur connecté et son nom
         return {
           token,
-          user,
+          user
         };
       },
     // signup va créer un nouvel utilisateur et l'ajouter à la base de données (en cryptant le mot de passe).
