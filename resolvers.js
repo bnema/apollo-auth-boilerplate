@@ -38,7 +38,7 @@ const resolvers = {
         if (!user) {
             throw new Error("No such user found");
         }
-
+        // On vérifie que le mot de passe est correct
         const valid = await bcrypt.compare(args.password, user.password);
         if (!valid) {
           throw new Error("Invalid password");

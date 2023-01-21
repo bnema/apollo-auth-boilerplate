@@ -11,8 +11,6 @@ dotenv.config();
 const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 import { resolvers } from './resolvers.js';
 
-
-
 // Creation d'une instance ApolloServer
 const server = new ApolloServer({
   typeDefs, // On passe nos types à ApolloServer
