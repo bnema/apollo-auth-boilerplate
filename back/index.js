@@ -25,19 +25,18 @@ const server = new ApolloServer({
       try {
         const decodedToken = jwt.verify(token, process.env.APP_SECRET);
         // On retourne l'utilisateur qui a fait la requête
+        console.log("Token found");
         return { user: decodedToken };
       } catch (err) {
         throw new Error('Invalid token');
       }
     }
     if (!token) {
+      console.log("No token found");
       throw new Error('No token found'); // Si le token n'est pas présent dans le header, on retourne une erreur
     }
-
-    // On retourne l'utilisateur qui a fait la requête (null si l'utilisateur n'est pas connecté)
-    const user = await getUser(token);
-    console.log(user);
-    return { user };
+    
+    res.headers.authorization = "Bearer " + token;
    
   },
 });
