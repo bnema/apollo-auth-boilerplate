@@ -18,8 +18,8 @@ const server = new ApolloServer({
   resolvers, // On passe nos resolvers à ApolloServer
 
   // On définit le contexte de notre application. Le contexte est un objet qui est passé à chaque resolver et qui contient des informations sur la requête en cours.
-  context: ({ req }) => {
-    // On récupère le token dans le header de la requête
+  context: async ({ req, res }) => {
+    // On tente de récupérer le token dans le header Authorization
     const token = req.headers.authorization;
     // SI le token est présent dans le header ALORS on le vérifie
     if (token) {
@@ -31,9 +31,15 @@ const server = new ApolloServer({
         throw new Error('Invalid token');
       }
     }
-    // Si le token n'est pas présent dans le header, on retourne une erreur
-    throw new Error('Authentication required');
-  }
+    if (!token) {
+      throw new Error('No token found');
+    }
+
+    // On retourne le contexte de la requête avec le header Authorization
+    return { 
+      response: res.httpResponse,
+    };
+  },
 });
 // On lance le serveur
 const { url } = await startStandaloneServer(server, {

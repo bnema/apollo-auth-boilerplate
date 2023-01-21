@@ -4,23 +4,10 @@
     email: String!
     password: String!
     name: String!
-    posts: [Post]
-  }
-
-  # Ce type "Post" représente un post de notre application. Il est lié à un utilisateur.
-  type Post {
-    id: ID!
-    title: String!
-    content: String!
-    published: Boolean!
-    author: User
-    # authorID correspond à l'ID de l'utilisateur qui a écrit le post.
-    authorID: ID!
   }
 
   # On ajoute un type AuhtPayload qui représente le retour de la mutation "login".
   # Ce type permet de transmettre un token et un utilisateur en même temps.
-  # On peut imaginer que le token est un cookie et que l'utilisateur est un utilisateur connecté.
   type AuthPayload {
     token: String
     user: User
@@ -34,25 +21,13 @@
     allUsers: [User]
     # On veut pouvoir récupérer un utilisateur en particulier grâce à son ID.
     oneUser(id: ID!): User
-    # On veut pouvoir récupérer tous les posts de notre application ainsi que l'utilisateur qui a écrit chaque post.
-    allPosts: [Post]
-    # On veut pouvoir récupérer un post en particulier grâce à son ID.
-    onePost(id: ID!): Post
 
   }
 
-  # Quelques mutations pour modifier des données.
+  # Mutation pour créer un utilisateur et se connecter.
   type Mutation {
     # On veut pouvoir se connecter. ET on veut pouvoir récupérer un token.
     login(email: String!, password: String!): AuthPayload
     # On veut pouvoir créer un utilisateur.
     signup(email: String!, password: String!, name: String!): AuthPayload
-    # On veut pouvoir créer un post.
-    createPost(title: String!, content: String!, published: Boolean!, authorID: ID!): Post
-    # On veut pouvoir modifier un post.
-    updatePost(id: ID!, title: String, content: String, published: Boolean): Post
-    # On veut pouvoir supprimer un post.
-    deletePost(id: ID!): Post
-    # On veut pouvoir supprimer un utilisateur.
-    deleteUser(id: ID!): User
   }

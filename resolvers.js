@@ -24,17 +24,6 @@ const resolvers = {
         },
       });
     },
-    // allPosts va retourner tous les posts de notre application.
-    allPosts: async () => {
-      return await prisma.post.findMany();
-    },
-    onePost: async (parent, args, context, info) => {
-      return await prisma.post.findUnique({
-        where: {
-          id: args.id,
-        },
-      });
-    },  
 },
     Mutation: {
     // login va vérifier que l'utilisateur existe bien et que le mot de passe est correct puis va retourner un token.
@@ -56,9 +45,12 @@ const resolvers = {
         }
         // Création du token avec jsonwebtoken
         const token = sign({ userId: user.id }, APP_SECRET);
+        // Console.log l'utilisateur et le token
+        console.log(`User: ${user.name} - Token: ${token} est connecté`);
+        // On envoi le token dans le header Authorization
+        context.response.httpResponse.headers.set("Authorization", `Bearer ${token}`);
         // Retour du token et de l'utilisateur
         return {
-          token,
           user,
         };
       },
@@ -89,47 +81,7 @@ const resolvers = {
         // On retourne le token et l'utilisateur
         return { token, user };
       },
-    // createPost va créer un post et l'ajouter à la base de données.
-    createPost: async (parent, args, context, info) => {
-      return await prisma.post.create({
-        data: {
-          title: args.title,
-          content: args.content,
-          published: args.published,
-          authorID: args.authorID,
-        },
-      });
     },
-    // updatePost va modifier un post et l'ajouter à la base de données.
-    updatePost: async (parent, args, context, info) => {
-      return await prisma.post.update({
-        where: {
-          id: args.id,
-        },
-        data: {
-          title: args.title,
-          content: args.content,
-          published: args.published,
-        },
-      });
-    },
-    // deletePost va supprimer un post de la base de données.
-    deletePost: async (parent, args, context, info) => {
-      return await prisma.post.delete({
-        where: {
-          id: args.id,
-        },
-      });
-    },
-    // deleteUser va supprimer un utilisateur de la base de données.
-    deleteUser: async (parent, args, context, info) => {
-      return await prisma.user.delete({
-        where: {
-          id: args.id,
-        },
-      });
-    }
-    }
-  };
+};
   
   export { resolvers }
