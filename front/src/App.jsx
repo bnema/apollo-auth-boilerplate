@@ -168,6 +168,7 @@ return (
       </div>
     </div>
   );
-}
+
+      }
 
 export default LoginSignupPage;

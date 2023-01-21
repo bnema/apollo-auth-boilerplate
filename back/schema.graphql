@@ -22,7 +22,7 @@
     # On veut pouvoir récupérer un utilisateur en particulier grâce à son ID.
     oneUser(id: ID!): User
 
-    token: String
+    verifyToken(token: String!): User
 
   }
 

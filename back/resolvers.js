@@ -24,7 +24,24 @@ const resolvers = {
         },
       });
     },
-},
+    verifyToken: async (parent, args, context, info) => {
+      const token = args.token;
+      const valid = await jwt.verify(token, process.env.APP_SECRET);
+      // On retourne l'utilisateur qui a fait la requête
+      if (valid) {
+        return {
+          user: {
+            id: args.id,
+            name: args.name,
+            email: args.email,
+          },
+        };
+      } else { 
+        // Si le token n'est pas valide, on retourne une erreur "fuck you"
+        throw new Error("Fuck you");
+      }}
+    },      
+
     Mutation: {
     // login va vérifier que l'utilisateur existe bien et que le mot de passe est correct puis va retourner un token.
     login: async (parent, args, context, info) => {
@@ -50,7 +67,10 @@ const resolvers = {
         // Retour du token de l'utilisateur connecté et son nom
         return {
           token,
-          user
+          user: {
+            name: user.name,
+            email: user.email,
+          },
         };
       },
     // signup va créer un nouvel utilisateur et l'ajouter à la base de données (en cryptant le mot de passe).

@@ -20,26 +20,32 @@ const server = new ApolloServer({
   context: async ({ req, res }) => {
     // On tente de récupérer le token dans le header Authorization
     const token = req.headers.authorization || '';
-    // SI le token est présent dans le header ALORS on le vérifie
-    if (token) {
-      try {
-        const decodedToken = jwt.verify(token, process.env.APP_SECRET);
-        // On retourne l'utilisateur qui a fait la requête
-        console.log("Token found");
-        return { user: decodedToken };
-      } catch (err) {
-        throw new Error('Invalid token');
-      }
-    }
-    if (!token) {
-      console.log("No token found");
-      throw new Error('No token found'); // Si le token n'est pas présent dans le header, on retourne une erreur
-    }
-    
-    res.headers.authorization = "Bearer " + token;
-   
+  //   // SI le token est présent dans le header ALORS on le vérifie
+  //   if (token) {
+  //     try {
+  //       // On vérifie le token avec jsonwebtoken
+  //       const valid = await jwt.verify(token, process.env.APP_SECRET);
+  //       res.headers.authorization = "Bearer " + token;
+  //       // Si le token est valide, on retourne l'utilisateur qui a fait la requête
+  //       if (valid) {
+         
+              
+  //       } else {
+  //         console.log("Token not found");
+  //       }
+  //       if (!token) {
+  //         console.log("No token found");
+  //         throw new Error('No token found'); // Si le token n'est pas présent dans le header, on retourne une erreur
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // },
   },
 });
+
+
 // On lance le serveur
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
