@@ -12,6 +12,7 @@ const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 import { resolvers } from './resolvers.js';
 
 
+
 // Creation d'une instance ApolloServer
 const server = new ApolloServer({
   typeDefs, // On passe nos types à ApolloServer
@@ -20,7 +21,7 @@ const server = new ApolloServer({
   // On définit le contexte de notre application. Le contexte est un objet qui est passé à chaque resolver et qui contient des informations sur la requête en cours.
   context: async ({ req, res }) => {
     // On tente de récupérer le token dans le header Authorization
-    const token = req.headers.authorization;
+    const token = req.headers.authorization || '';
     // SI le token est présent dans le header ALORS on le vérifie
     if (token) {
       try {
@@ -32,13 +33,14 @@ const server = new ApolloServer({
       }
     }
     if (!token) {
-      throw new Error('No token found');
+      throw new Error('No token found'); // Si le token n'est pas présent dans le header, on retourne une erreur
     }
 
-    // On retourne le contexte de la requête avec le header Authorization
-    return { 
-      response: res.httpResponse,
-    };
+    // On retourne l'utilisateur qui a fait la requête (null si l'utilisateur n'est pas connecté)
+    const user = await getUser(token);
+    console.log(user);
+    return { user };
+   
   },
 });
 // On lance le serveur

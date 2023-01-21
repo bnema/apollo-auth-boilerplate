@@ -47,8 +47,6 @@ const resolvers = {
         const token = sign({ userId: user.id }, APP_SECRET);
         // Console.log l'utilisateur et le token
         console.log(`User: ${user.name} - Token: ${token} est connecté`);
-        // On envoi le token dans le header Authorization
-        context.response.httpResponse.headers.set("Authorization", `Bearer ${token}`);
         // Retour du token et de l'utilisateur
         return {
           user,
