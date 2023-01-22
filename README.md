@@ -52,16 +52,18 @@ Il y a 2 variables d'environnement à définir dans un .env pour le back :
 APP_SECRET=(clé secrète pour la génération de jetons)
 PG_URL=(URL de connexion à la base de données PostgreSQL via Prisma)
 ```
-Il faut executer la commande suivante pour générer le schéma de la base de données :
+(Il est en théorie possible d'appliquer le modèle à d'autres bases de données, mais je n'ai pas testé)
+
+Générer le schéma de la base de données :
 ```bash
 npx prisma migrate dev --name init
 npx prisma generate
 ```
-Il faut ensuite lancer le serveur backend :
+Lancer le serveur backend :
 ```bash
 cd back/ && npm run start
 ```
-puis le serveur frontend
+Puis le serveur frontend :
 ```bash
 cd front/ && npm run dev
 
