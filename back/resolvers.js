@@ -107,8 +107,7 @@ const resolvers = {
 
         // On prépare la réponse à retourner qui contient le token et l'utilisateur
        const response = {
-          token: token,
-          user: user
+          token: token
        }
 
         // On retourne la réponse
