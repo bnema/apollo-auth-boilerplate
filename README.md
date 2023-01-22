@@ -4,7 +4,7 @@ Ceci est le boilerplate d'un composant d'authentification NodeJS full-stack util
 
 Ce boilerplate est réalisé dans le but d'être utilisé comme base pour des projets futurs. Il n'est absolument pas destiné à être utilisé en production tel quel.
 
-Étant novice en GraphQL, donc si vous avez des suggestions ou des commentaires, n'hésitez pas à me contacter ou faire une pull request.
+Étant novice en GraphQL, si vous avez des suggestions ou des commentaires, n'hésitez pas à me contacter ou faire une pull request.
 
 ✌
 
