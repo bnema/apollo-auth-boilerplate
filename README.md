@@ -1,10 +1,10 @@
 # 🚀 Apollo Auth Boilerplate
 
-Ceci est un boilerplate d'un composant d'authentification NodeJS full-stack utilisant Apollo Server et Apollo Client. Le backend utilise GraphQL et Prisma. Le frontend utilise Vite.js et React.
+Ceci est le boilerplate d'un composant d'authentification NodeJS full-stack utilisant Apollo Server et Apollo Client. Le backend utilise GraphQL et Prisma. Le frontend utilise Vite.js et React.
 
-Ce boilerplate est réalisé dans le but d'être utilisé comme base pour des projets futurs. Il est donc possible qu'il soit mis à jour régulièrement.
+Ce boilerplate est réalisé dans le but d'être utilisé comme base pour des projets futurs. Il n'est absolument pas destiné à être utilisé en production tel quel.
 
-Je tiens également à signaler que je suis novice en GraphQL, donc si vous avez des suggestions ou des commentaires, n'hésitez pas à me contacter ou faire une pull request.
+Étant novice en GraphQL, donc si vous avez des suggestions ou des commentaires, n'hésitez pas à me contacter ou faire une pull request.
 
 ✌
 
