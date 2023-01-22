@@ -40,11 +40,31 @@ Le frontend est lancé sur le port 5173 et peut être consulté à l'adresse htt
 
 ## Installation
 
-Il y a 2 variables d'environnement à définir pour le back :
+Il faut réaliser un npm install dans chaque dossier (backend et frontend) pour installer les dépendances.
 
-- APP_SECRET (clé secrète pour la génération de jetons)
-- PG_URL (URL de connexion à la base de données PostgreSQL via Prisma)
+```bash
+  npm install
+```
 
+Il y a 2 variables d'environnement à définir dans un .env pour le back :
+```bash
+APP_SECRET=(clé secrète pour la génération de jetons)
+PG_URL=(URL de connexion à la base de données PostgreSQL via Prisma)
+```
+Il faut executer la commande suivante pour générer le schéma de la base de données :
+```bash
+  npx prisma migrate dev --name init
+  npx prisma generate
+```
+Il faut ensuite lancer le serveur backend :
+```bash
+  cd back/ && npm run dev
+```
+puis le serveur frontend
+```bash
+  cd front/ && npm run dev
+
+```
 
 ## Licence
 
