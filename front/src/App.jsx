@@ -51,6 +51,7 @@ function LoginSignupPage() {
       });
       // Si l'utilisateur a bien été connecté, on affiche un message de succès et on stocke le token en local storage
       localStorage.setItem('token', data.login.token);
+      
       // display the dashboard page
       window.location.href = "/dashboard";
 
