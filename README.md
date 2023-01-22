@@ -1,6 +1,6 @@
 # Boilerplate Apollo Server & Client
 
-Ceci est un boilerplate pour une application full-stack utilisant Apollo Server et Apollo Client. Le backend utilise GraphQL et Prisma et le frontend utilise Vite.js et React.
+Ceci est un boilerplate pour un composant d'authentification full-stack utilisant Apollo Server et Apollo Client. Le backend utilise GraphQL et Prisma. Le frontend utilise Vite.js et React.
 
 Ce boilerplate est réalisé dans le but d'être utilisé comme base pour des projets futurs. Il est donc possible qu'il soit mis à jour régulièrement.
 
@@ -26,8 +26,8 @@ Le backend est lancé sur le port 4000 et peut être consulté à l'adresse http
 ## Frontend
 
 __Stack du frontend :__
-- React - Une bibliothèque JavaScript pour la création d'interfaces utilisateur
-- Apollo Client - Un cadre client puissant pour interagir avec un serveur GraphQL
+- React 
+- Apollo Client 
 
 __Features :__
 - Un composant de connexion pour les utilisateurs existants
