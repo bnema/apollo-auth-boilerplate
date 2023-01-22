@@ -27,6 +27,7 @@ Le backend est lancé sur le port 4000 et peut être consulté à l'adresse http
 ## Frontend
 
 __Stack du frontend :__
+- Vite.js
 - React 
 - Apollo Client 
 
@@ -58,7 +59,7 @@ npx prisma generate
 ```
 Il faut ensuite lancer le serveur backend :
 ```bash
-cd back/ && npm run dev
+cd back/ && npm run start
 ```
 puis le serveur frontend
 ```bash
