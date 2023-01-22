@@ -36,7 +36,15 @@ __Features :__
 - Une page de tableau de bord pour les utilisateurs après la connexion
 - Gestion de jetons en utilisant localStorage
 
-Le frontend est lancé sur le port 3000 et peut être consulté à l'adresse http://localhost:3000/.
+Le frontend est lancé sur le port 5173 et peut être consulté à l'adresse http://localhost:5173/.
+
+## Installation
+
+Il y a 2 variables d'environnement à définir pour le back :
+
+- APP_SECRET (clé secrète pour la génération de jetons)
+- PG_URL (URL de connexion à la base de données PostgreSQL via Prisma)
+
 
 ## Licence
 
