@@ -9,6 +9,32 @@ import dotenv from 'dotenv';
 dotenv.config();
 const APP_SECRET = process.env.APP_SECRET;
 
+
+// Fonction async qui prend le token, l'analyse et répond en bolean si le token est valide ou non
+
+async function verifyTokenJwt(token) {
+  try {
+    const valid = verify(token, APP_SECRET);
+    if (valid) {
+      return true;
+    }
+  } catch (error) {
+    // Si l'erreur est jwt expired, on retourne un message d'erreur
+    if (error.name === "TokenExpiredError") {
+      return {
+        error: "Token is expired"
+      }
+    }
+    // Si l'erreur est jwt malformed, on retourne un message d'erreur
+    if (error.name === "JsonWebTokenError") {
+      return {
+        error: "Token is malformed"
+      }
+    }
+    return false;
+  }
+}
+
 // On définit les resolvers. Ce sont des fonctions qui vont être appelées quand on fait une requête ou une mutation.
 const resolvers = {
     // On définit les resolvers pour les queries.
@@ -24,23 +50,35 @@ const resolvers = {
         },
       });
     },
+    // verifyToken va vérifier un token et retourner un status et l'id de l'utilisateur
     verifyToken: async (parent, args, context, info) => {
+      // On défini ce que le type TokenResponse.status peut retourner
+      try {
+      // On récupère le token dans le payload
       const token = args.token;
-      const valid = await jwt.verify(token, process.env.APP_SECRET);
-      // On retourne l'utilisateur qui a fait la requête
-      if (valid) {
+      console.log("Token reçu pour analyse " + token);
+      // On vérifie le token avec notre function verifyToken
+      const valid = await verifyTokenJwt(token);
+    
+      // Notre type TokenResponse retourne un status et userId
+      // Si le token est valide, on retourne l'utilisateur qui a fait la requête
+      if (valid === true) {
+        console.log("Token valide");
         return {
+          status: "Token is valid",
           user: {
             id: args.id,
             name: args.name,
             email: args.email,
-          },
-        };
-      } else { 
-        // Si le token n'est pas valide, on retourne une erreur "fuck you"
-        throw new Error("Fuck you");
-      }}
-    },      
+          }
+        }
+      }
+    }
+      catch (error) {
+        
+      }
+    },
+  },
 
     Mutation: {
     // login va vérifier que l'utilisateur existe bien et que le mot de passe est correct puis va retourner un token.
@@ -64,14 +102,17 @@ const resolvers = {
         const token = sign({ userId: user.id }, APP_SECRET);
         // Console.log l'utilisateur et le token
         console.log(`User: ${user.name} - Token: ${token} est connecté`);
-        // Retour du token de l'utilisateur connecté et son nom
-        return {
-          token,
-          user: {
-            name: user.name,
-            email: user.email,
-          },
-        };
+
+        // On prépare la réponse à retourner qui contient le token et l'utilisateur
+       const response = {
+          token: token,
+          user: user
+       }
+
+        // On retourne la réponse
+        return response;
+
+
       },
     // signup va créer un nouvel utilisateur et l'ajouter à la base de données (en cryptant le mot de passe).
     signup: async (parent, args, context, info) => {
@@ -101,6 +142,6 @@ const resolvers = {
         return { token, user };
       },
     },
-};
+  };
   
   export { resolvers }

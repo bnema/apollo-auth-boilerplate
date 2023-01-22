@@ -6,12 +6,19 @@
     name: String!
   }
 
+  type TokenResponse {
+    status: String!
+    # On envoi également les informations de l'utilisateur connecté.
+    user: User!
+
+  }
   # On ajoute un type AuhtPayload qui représente le retour de la mutation "login".
   # Ce type permet de transmettre un token et un utilisateur en même temps.
   type AuthPayload {
     token: String
-    user: User
+    user: User!
   }
+
   # Les types "Query" et "Mutation" sont des types spéciaux qui définissent les requêtes et mutations que l'on peut faire sur notre API.
   # On peut les imaginer comme des "endpoints" de notre API.
 
@@ -20,16 +27,16 @@
     # On veut pouvoir récupérer tous les utilisateurs de notre application
     allUsers: [User]
     # On veut pouvoir récupérer un utilisateur en particulier grâce à son ID.
-    oneUser(id: ID!): User
+    oneUser(id: ID!): User# On veut pouvoir récupérer l'utilisateur connecté.
 
-    verifyToken(token: String!): User
-
+    verifyToken(token: String!): TokenResponse!
   }
 
   # Mutation pour créer un utilisateur et se connecter.
   type Mutation {
     # On veut pouvoir se connecter. ET on veut pouvoir récupérer un token.
-    login(email: String!, password: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload!
     # On veut pouvoir créer un utilisateur.
-    signup(email: String!, password: String!, name: String!): AuthPayload
+    signup(email: String!, password: String!, name: String!): AuthPayload!
+
   }
