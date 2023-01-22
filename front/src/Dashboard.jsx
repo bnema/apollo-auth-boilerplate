@@ -1,47 +1,33 @@
 import { useState } from 'react'
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation, ApolloLink } from '@apollo/client';
 import './App.css'
 
 // Vue /dashboard : affiche le dashboard de l'utilisateur connecté
+
+// On récupère le token en local storage
 const token = localStorage.getItem('token');
 
-// verifyToken: async (parent, args, context, info) => {
-//     const token = args.token;
-//     const valid = await jwt.verify(token, process.env.APP_SECRET);
-//     // On retourne l'utilisateur qui a fait la requête
-//     if (valid) {
-//       return {
-//         user: {
-//           id: args.id,
-//           name: args.name,
-//           email: args.email,
-//         },
-//       };
-//     } else { 
-//       // Si le token n'est pas valide, on retourne une erreur "fuck you"
-//       throw new Error("Fuck you");
-//     }}
-//   },      
-
-
-// On doit s'assurer que le token est valide et correspond bien à un utilisateur connecté
+// On l'envoi pour vérifier que le token est valide avant d'afficher le dashboard
 const VERIFY_TOKEN = gql`
     query verifyToken($token: String!) {
         verifyToken(token: $token) {
+            # On récupère les informations de l'utilisateur
             user {
                 id
                 name
                 email
-            }
+            },
+            # On récupère le status (200) si le token est valide
+            status
         }
     }
 `;
+
 function Dashboard() {
     // On récupère le token en local storage
     // On vérifie que le token est valide
     const { loading, error, data } = useQuery(VERIFY_TOKEN, {
-        query: VERIFY_TOKEN,
-        variables: { token: token },
+        variables: { token },
     });
     // Si le token n'est pas valide, on affiche un message d'erreur
     if (error) {
@@ -51,7 +37,10 @@ function Dashboard() {
     } else {
     return (
         <div className="flex">
-            <h1>COUCOUILLE</h1>
+            <h1>Bienvenue sur le Dashboard</h1>
+            <div className="container">
+            <button onClick={() => { localStorage.removeItem('token'); window.location.reload(); }}>Déconnexion</button>
+            </div>
         </div>
     );
     }
