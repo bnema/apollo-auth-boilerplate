@@ -21,7 +21,9 @@ const VERIFY_TOKEN = gql`
             status
         }
     }
+
 `;
+
 
 function Dashboard() {
     // On récupère le token en local storage
@@ -35,9 +37,10 @@ function Dashboard() {
     } else if (loading) {
         return <div>Loading</div>;
     } else {
+        localStorage.setItem('user', JSON.stringify(data.verifyToken.user));
     return (
         <div className="flex">
-            <h1>Bienvenue sur le Dashboard</h1>
+            <h1>Bienvenue sur le Dashboard {data.verifyToken.user.name}</h1>
             <div className="container">
             <button onClick={() => { localStorage.removeItem('token'); window.location.reload(); }}>Déconnexion</button>
             </div>
