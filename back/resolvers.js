@@ -16,6 +16,8 @@ async function verifyTokenJwt(token) {
     const valid = verify(token, APP_SECRET);
     if (valid) {
       return true;
+    } else {
+      return false;
     }
   } catch (error) {
     // Si l'erreur est jwt expired, on retourne un message d'erreur
@@ -61,7 +63,7 @@ const resolvers = {
     
       // Notre type TokenResponse retourne un status et userId
       // Si le token est valide, on retourne l'utilisateur qui a fait la requête
-      if (valid) {
+      if (valid === true) {
         console.log("Token valide");
         // Check who is the user in the token
         const decoded = jwt.decode(token);
@@ -74,6 +76,13 @@ const resolvers = {
           user : user,
           status: 200
           }
+          } else {
+            // Si le token n'est pas valide, on retourne un status 401
+            console.log("Token invalide");
+            return {
+              status: 401,
+              error: "Token invalide"
+            }
           }
         }
       catch (error) {

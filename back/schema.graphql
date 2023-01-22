@@ -9,7 +9,7 @@
   type TokenResponse {
     status: Int!
     # On envoi également les informations de l'utilisateur connecté.
-    user: User!
+    user: User
 
   }
   # On ajoute un type AuhtPayload qui représente le retour de la mutation "login".

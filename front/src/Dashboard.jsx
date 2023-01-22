@@ -32,6 +32,11 @@ function Dashboard() {
         variables: { token },
     });
     // Si le token n'est pas valide, on affiche un message d'erreur
+    if (data && data.verifyToken.status !== 200) {
+        return <div>Erreur : Token invalide, merci de vous reconnecter
+        <button onClick={() => { localStorage.removeItem('token'); window.location.reload(); }}>Reconnexion</button>
+        </div>;
+    } else
     if (error) {
         return <div>Erreur : {error.message}</div>;
     } else if (loading) {
