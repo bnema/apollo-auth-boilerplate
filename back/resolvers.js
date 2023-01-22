@@ -11,7 +11,6 @@ const APP_SECRET = process.env.APP_SECRET;
 
 
 // Fonction async qui prend le token, l'analyse et répond en bolean si le token est valide ou non
-
 async function verifyTokenJwt(token) {
   try {
     const valid = verify(token, APP_SECRET);
@@ -62,23 +61,26 @@ const resolvers = {
     
       // Notre type TokenResponse retourne un status et userId
       // Si le token est valide, on retourne l'utilisateur qui a fait la requête
-      if (valid === true) {
+      if (valid) {
         console.log("Token valide");
+        // Check who is the user in the token
+        const decoded = jwt.decode(token);
+        const user = await prisma.user.findUnique({
+          where: {
+            id: decoded.userId
+          }});
+        
         return {
-          status: "Token is valid",
-          user: {
-            id: args.id,
-            name: args.name,
-            email: args.email,
+          user : user,
+          status: 200
+          }
           }
         }
-      }
-    }
       catch (error) {
-        
-      }
+       throw new Error(error);
+         }
+       },
     },
-  },
 
     Mutation: {
     // login va vérifier que l'utilisateur existe bien et que le mot de passe est correct puis va retourner un token.
@@ -91,12 +93,12 @@ const resolvers = {
         });
         // Si l'utilisateur n'existe pas, on retourne une erreur
         if (!user) {
-            throw new Error("No such user found");
+            throw new Error(`Le compte n'existe pas`);
         }
         // On vérifie que le mot de passe est correct
         const valid = await bcrypt.compare(args.password, user.password);
         if (!valid) {
-          throw new Error("Invalid password");
+          throw new Error("Mot de passe incorrect");
         }
         // Création du token avec jsonwebtoken
         const token = sign({ userId: user.id }, APP_SECRET);
@@ -124,7 +126,7 @@ const resolvers = {
         });
         // Si l'utilisateur existe déjà, on retourne une erreur
         if (userExists) {
-            throw new Error("User already exists");
+            throw new Error(`L'utilisateur existe déjà`);
         }
         // On crypte le mot de passe avec bcrypt
         const password = await bcrypt.hash(args.password, 10);

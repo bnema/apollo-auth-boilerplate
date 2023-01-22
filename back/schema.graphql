@@ -7,7 +7,7 @@
   }
 
   type TokenResponse {
-    status: String!
+    status: Int!
     # On envoi également les informations de l'utilisateur connecté.
     user: User!
 
