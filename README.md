@@ -68,7 +68,17 @@ Puis le serveur frontend :
 cd front/ && npm run dev
 
 ```
+## Todo
 
+- [ ] Cookie httpOnly pour le jeton
+- [ ] Sécurisation de la partie backend
+- [ ] Limitation des requêtes (rate limiting)
+- [ ] Fail2ban côté front et back
+- [ ] REGEX (email, mot de passe, etc.)
+- [ ] Inscription avec confirmation par email
+- [ ] Oauth (Google, Facebook, etc.)
+- [ ] Script de seeding
+- [ ] Tests unitaires
 ## Licence
 
 Ce boilerplate est sous licence Apache 2.0. Vous pouvez en utiliser les codes sources à des fins commerciales ou non-commerciales, mais vous devez inclure un avis de copyright et une copie de la licence dans toutes les copies ou parties substantielles du logiciel.
